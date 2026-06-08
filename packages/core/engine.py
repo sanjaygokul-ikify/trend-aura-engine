@@ -10,7 +10,7 @@ from collections import defaultdict
 logger = logging.getLogger(__name__)
 
 class Engine:
-    def __init__(self, persistence_layer: PersistenceLayer):
+    def __init__(self, persistence_layer: 'PersistenceLayer'):  # type: ignore
         self.persistence_layer = persistence_layer
         self.reasoning_results: Dict[str, ReasoningResult] = {}
 
