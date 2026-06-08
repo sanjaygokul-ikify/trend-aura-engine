@@ -1,0 +1,17 @@
+# default.yaml file
+
+api_gateway:
+  host: "localhost"
+  port: 5000
+load_balancer:
+  host: "localhost"
+  port: 5001
+reasoning_engine:
+  host: "localhost"
+  port: 5002
+persistence_layer:
+  host: "localhost"
+  port: 5432
+result_store:
+  host: "localhost"
+  port: 5003
