@@ -40,8 +40,12 @@ class Engine:
         results = []
         while reasoning_tasks:
             _, task = heapq.heappop(reasoning_tasks)
-            result = self._process_task(task)
-            results.append(result)
+            try:
+                result = self._process_task(task)
+                results.append(result)
+            except Exception as e:
+                logger.error(f'Error processing task: {task} - {e}')
+                raise InvalidRequestException(f'Invalid request: {task} - {e}')
         return ReasoningResult(results)
 
     def _calculate_priority(self, task: Task) -> int:
