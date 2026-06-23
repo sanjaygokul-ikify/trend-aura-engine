@@ -13,15 +13,19 @@ class Engine:
     def __init__(self, persistence_layer: 'PersistenceLayer'):  # type: ignore
         self.persistence_layer = persistence_layer
         self.reasoning_results: Dict[str, ReasoningResult] = {}
+        self.cache: Dict[str, ReasoningResult] = {}
 
     def process_request(self, request: Request) -> ReasoningResult:
         try:
             request_json = json.dumps(request.to_dict())
+            if request_json in self.cache:
+                return self.cache[request_json]
             reasoning_result = self.persistence_layer.get_result(request_json)
             if reasoning_result is None:
                 # Perform complex reasoning logic
                 reasoning_result = self._perform_reasoning(request)
                 self.persistence_layer.store_result(request_json, reasoning_result)
+                self.cache[request_json] = reasoning_result
             return reasoning_result
         except Exception as e:
             logger.error(f'Error processing request: {e}')
