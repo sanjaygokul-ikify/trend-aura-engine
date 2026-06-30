@@ -63,9 +63,7 @@ class Engine:
         # Simulate the processing of the task
         logger.info(f'Processing task: {task}')
         # Create a dictionary to hold the results of the task
-        result = defaultdict(dict)
-        result['task_id'] = task.task_id
-        result['result'] = 'success'
+        result = {'task_id': task.task_id, 'result': 'success'}
         return Result(result)
 
     def get_result(self, request_json: str) -> Optional[ReasoningResult]:
