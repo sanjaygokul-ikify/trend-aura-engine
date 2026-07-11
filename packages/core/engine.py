@@ -14,12 +14,16 @@ class Engine:
         self.persistence_layer = persistence_layer
         self.reasoning_results: Dict[str, ReasoningResult] = {}
         self.cache: Dict[str, ReasoningResult] = {}
+        self.request_cache: Dict[str, Request] = {}
 
     def process_request(self, request: Request) -> ReasoningResult:
         try:
             request_json = json.dumps(request.to_dict())
             if request_json in self.cache:
                 return self.cache[request_json]
+            if request.request_id in self.request_cache:
+                return self._perform_reasoning(self.request_cache[request.request_id])
+            self.request_cache[request.request_id] = request
             reasoning_result = self.persistence_layer.get_result(request_json)
             if reasoning_result is None:
                 # Perform complex reasoning logic
