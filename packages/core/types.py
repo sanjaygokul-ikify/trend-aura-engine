@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 @dataclass
 class Request:
     request_id: str
-    tasks: List[Task]
+    tasks: List['Task']
 
 @dataclass
 class Task:
