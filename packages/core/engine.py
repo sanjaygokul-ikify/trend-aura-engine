@@ -33,7 +33,7 @@ class Engine:
             return reasoning_result
         except Exception as e:
             logger.error(f'Error processing request: {e}')
-            raise ReasoningException('Failed to process request')
+            raise ReasoningException('Failed to process request') from e
 
     def _perform_reasoning(self, request: Request) -> ReasoningResult:
         # Simulate complex reasoning logic
@@ -53,7 +53,7 @@ class Engine:
                 results.append(result)
             except Exception as e:
                 logger.error(f'Error processing task: {task} - {e}')
-                raise InvalidRequestException(f'Invalid request: {task} - {e}')
+                raise InvalidRequestException(f'Invalid request: {task} - {e}') from e
         return ReasoningResult(results)
 
     def _calculate_priority(self, task: Task) -> int:
