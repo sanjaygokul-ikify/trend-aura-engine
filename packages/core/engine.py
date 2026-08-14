@@ -18,6 +18,8 @@ class Engine:
 
     def process_request(self, request: Request) -> ReasoningResult:
         try:
+            if not request.tasks:
+                raise InvalidRequestException('Request must contain at least one task')
             request_json = json.dumps(request.to_dict())
             if request_json in self.cache:
                 return self.cache[request_json]
